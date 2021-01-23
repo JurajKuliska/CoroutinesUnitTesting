@@ -1,0 +1,6 @@
+include ':ui'
+include ':repository'
+include ':persistence'
+include ':api'
+include ':app'
+rootProject.name = "UnitTest"
