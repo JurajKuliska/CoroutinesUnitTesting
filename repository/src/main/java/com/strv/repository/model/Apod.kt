@@ -2,7 +2,7 @@ package com.strv.repository.model
 
 import java.util.*
 
-class Apod(
+data class Apod(
     val date: Date,
     val explanation: String,
     val hdUrl: String?,
