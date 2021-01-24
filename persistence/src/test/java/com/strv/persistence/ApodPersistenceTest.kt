@@ -38,10 +38,10 @@ class ApodPersistenceTest {
         val date2 = Date().apply { time = 900000000 }
         val mockData = getMockData1(date1, date2)
 
-        assertThat(sut.getAll().first()).isEqualTo(emptyList<ApodModel>())
+        assertThat(sut.apodList.first()).isEqualTo(emptyList<ApodModel>())
         sut.updateData(mockData)
 
-        assertThat(sut.getAll().first()).isEqualTo(mockData)
+        assertThat(sut.apodList.first()).isEqualTo(mockData)
     }
 
     @Test
@@ -55,7 +55,7 @@ class ApodPersistenceTest {
         sut.updateData(mockData1)
         sut.updateData(mockData2)
 
-        assertThat(sut.getAll().first()).isEqualTo(mockData2)
+        assertThat(sut.apodList.first()).isEqualTo(mockData2)
     }
 
     private fun getMockData1(date1: Date, date2: Date) = listOf(

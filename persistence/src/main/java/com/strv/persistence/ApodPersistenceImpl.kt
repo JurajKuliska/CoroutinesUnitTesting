@@ -15,6 +15,6 @@ internal class ApodPersistenceImpl(
     override suspend fun updateData(list: List<ApodModel>) =
         apodDao.updateData(list.map { it.toApodEntity() })
 
-    override suspend fun getAll(): Flow<List<ApodModel>> =
+    override val apodList: Flow<List<ApodModel>> =
         apodDao.getAll().flatMapLatest { list -> flowOf(list.map { it.toApodModel() }) }
 }
