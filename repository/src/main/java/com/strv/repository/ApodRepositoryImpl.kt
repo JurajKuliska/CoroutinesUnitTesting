@@ -29,7 +29,7 @@ internal class ApodRepositoryImpl(
         loadingFlow.value = false
     }
 
-    override val apodList: Flow<ApodFetchState> =
+    override val apodDataState: Flow<ApodFetchState> =
         combine(
             apodPersistence.apodList,
             loadingFlow,

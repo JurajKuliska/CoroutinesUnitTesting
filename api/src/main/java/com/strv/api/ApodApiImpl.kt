@@ -7,13 +7,12 @@ import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
-import java.lang.Exception
 
 internal class ApodApiImpl(private val httpClient: HttpClient) : ApodApi {
     override suspend fun fetchApod(count: Int): Response =
         try {
             val response: HttpResponse = httpClient.get(
-                "/apod?api_key=DEMO_KEY&count=$count"
+                "apod?api_key=DEMO_KEY&count=$count"
             )
             if(response.status.isSuccess()) {
                 Response.Success<List<ApodDto>>(response.receive())

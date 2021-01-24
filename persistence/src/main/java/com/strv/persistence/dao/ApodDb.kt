@@ -11,7 +11,7 @@ import com.strv.persistence.model.ApodEntity
     entities = [
         ApodEntity::class
     ],
-    version = 1
+    version = 2
 )
 @TypeConverters(DateConverter::class)
 internal abstract class ApodDb : RoomDatabase() {

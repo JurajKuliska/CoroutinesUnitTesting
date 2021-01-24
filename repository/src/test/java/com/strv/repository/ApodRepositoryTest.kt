@@ -58,7 +58,7 @@ class ApodRepositoryTest {
     fun `test loading`() = runBlockingTest {
         val job = launch { sutInitialEmpty.fetchApod() }
 
-        assertThat(sutInitialEmpty.apodList.first()).isEqualTo(ApodFetchStateLoading(emptyList()))
+        assertThat(sutInitialEmpty.apodDataState.first()).isEqualTo(ApodFetchStateLoading(emptyList()))
 
         job.cancel()
     }
@@ -67,7 +67,7 @@ class ApodRepositoryTest {
     fun `test loading with cached data`() = runBlockingTest {
         val job = launch { sutInitialNonEmpty.fetchApod() }
 
-        val fetchState = sutInitialNonEmpty.apodList.first()
+        val fetchState = sutInitialNonEmpty.apodDataState.first()
         assertThat(fetchState is ApodFetchStateLoading).isTrue()
         val data = (fetchState as ApodFetchStateLoading).list
 
@@ -100,7 +100,7 @@ class ApodRepositoryTest {
     fun `test loading and then success`() = runBlockingTest {
         val job = launch { sutInitialEmpty.fetchApod() }
 
-        val fetchState = sutInitialEmpty.apodList
+        val fetchState = sutInitialEmpty.apodDataState
         assertThat(fetchState.first()).isEqualTo(ApodFetchStateLoading(emptyList()))
 
         apodApiResponseChannel.send(mockApiData)
@@ -138,7 +138,7 @@ class ApodRepositoryTest {
     fun `test loading and then error`() = runBlockingTest {
         val job = launch { sutApiError.fetchApod() }
 
-        val fetchState = sutApiError.apodList
+        val fetchState = sutApiError.apodDataState
         assertThat(fetchState.first() is ApodFetchStateLoading).isTrue()
 
         apodApiErrorResponseChannel.send("Test Error")

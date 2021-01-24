@@ -6,5 +6,5 @@ interface ApodRepository {
 
     suspend fun fetchApod()
 
-    val apodList: Flow<ApodFetchState>
+    val apodDataState: Flow<ApodFetchState>
 }
