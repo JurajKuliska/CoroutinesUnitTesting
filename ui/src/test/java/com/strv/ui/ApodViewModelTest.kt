@@ -30,7 +30,6 @@ class ApodViewModelTest {
     private val testMainDispatcher = TestCoroutineDispatcher()
 
     private lateinit var sut: ApodViewModel
-    private lateinit var sutError: ApodViewModel
     private lateinit var apodRepository: ApodRepository
     private val dataStateFlow = MutableStateFlow<ApodFetchState>(ApodFetchStateLoading(emptyList()))
 
