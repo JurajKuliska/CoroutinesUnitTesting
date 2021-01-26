@@ -1,9 +1,6 @@
 package com.strv.persistence.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.strv.persistence.model.ApodEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -12,6 +9,7 @@ internal interface ApodDaoImpl: ApodDao {
     @Query("SELECT * FROM apod")
     override fun getAll(): Flow<List<ApodEntity>>
 
+    @Transaction
     override suspend fun updateData(list: List<ApodEntity>) {
         deleteAll()
         insertData(list)
