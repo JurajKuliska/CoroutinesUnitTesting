@@ -8,7 +8,7 @@ import java.util.*
 
 @OptIn(ExperimentalSerializationApi::class)
 @Serializable
-data class ApodDto constructor(
+data class ApodDto(
     @Serializable(with = DateSerializer::class)
     val date: Date,
     val explanation: String,
