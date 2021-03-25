@@ -42,8 +42,14 @@ class ApodFragment : Fragment() {
 		super.onViewCreated(view, savedInstanceState)
 		viewLifecycleOwner.launchWhile(Lifecycle.State.RESUMED) {
 			viewModel.viewState.collect {
+				binding.progressbar.visibility = View.GONE
 				when (it) {
-					is ApodViewStateLoading -> adapter.submitList(it.list)
+					is ApodViewStateLoading -> {
+						adapter.submitList(it.list)
+						if(it.list.isEmpty()) {
+							binding.progressbar.visibility = View.VISIBLE
+						}
+					}
 					is ApodViewStateEmpty -> adapter.submitList(emptyList())
 					is ApodViewStateError -> {
 						adapter.submitList(it.list)
