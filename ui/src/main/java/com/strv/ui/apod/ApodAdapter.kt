@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.strv.repository.model.Apod
-import com.strv.ui.databinding.ItemApodBinding
+import com.strv.unittest.databinding.ItemApodBinding
 
 internal class ApodAdapter() : ListAdapter<Apod, ApodViewHolder>(ApodDiffUtil()) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =

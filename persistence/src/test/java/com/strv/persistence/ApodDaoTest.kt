@@ -24,7 +24,7 @@ import java.util.concurrent.Executors
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
-@Config(sdk = [Build.VERSION_CODES.P])
+@Config(sdk = [Build.VERSION_CODES.TIRAMISU])
 class ApodDaoTest {
     private lateinit var sut: ApodDao
     private lateinit var db: ApodDb

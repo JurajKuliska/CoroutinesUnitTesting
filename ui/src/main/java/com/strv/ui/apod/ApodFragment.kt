@@ -7,9 +7,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import com.strv.ui.databinding.MainFragmentBinding
 import com.strv.ui.util.launchWhile
-import kotlinx.coroutines.flow.collect
+import com.strv.unittest.databinding.MainFragmentBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ApodFragment : Fragment() {
