@@ -1,6 +1,5 @@
 package com.strv.ui
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.common.truth.Truth.assertThat
 import com.strv.repository.*
 import com.strv.repository.model.Apod
@@ -8,15 +7,10 @@ import com.strv.ui.apod.*
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runBlockingTest
-import kotlinx.coroutines.test.setMain
-import org.junit.After
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -26,8 +20,7 @@ import java.util.*
 class ApodViewModelTest {
 
     @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
-    private val testMainDispatcher = TestCoroutineDispatcher()
+    val dispatcherRule = MainDispatcherRule()
 
     private lateinit var sut: ApodViewModel
     private lateinit var apodRepository: ApodRepository
@@ -40,8 +33,6 @@ class ApodViewModelTest {
 
     @Before
     fun `set up`() {
-        Dispatchers.setMain(testMainDispatcher)
-
         apodRepository = mockk {
             coEvery { fetchApod() } coAnswers { }
             every { apodDataState } returns dataStateFlow
@@ -50,21 +41,15 @@ class ApodViewModelTest {
         sut = ApodViewModel(apodRepository)
     }
 
-    @After
-    fun `tear down`() {
-        testMainDispatcher.cleanupTestCoroutines()
-        Dispatchers.resetMain() // reset main dispatcher to the original Main dispatcher
-    }
-
     @Test
-    fun `test fetch success`() = runBlockingTest {
+    fun `test fetch success`() = runTest {
         assertThat(sut.viewState.first()).isEqualTo(ApodViewStateLoading(emptyList()))
         dataStateFlow.value = ApodFetchStateSuccess(mockData1)
         assertThat(sut.viewState.first()).isEqualTo(ApodViewStateSuccess(mockData1))
     }
 
     @Test
-    fun `test load from cache while fetching`() = runBlockingTest {
+    fun `test load from cache while fetching`() = runTest {
         dataStateFlow.value = ApodFetchStateLoading(mockData1)
         assertThat(sut.viewState.first()).isEqualTo(ApodViewStateLoading(mockData1))
         dataStateFlow.value = ApodFetchStateSuccess(mockData2)
@@ -72,7 +57,7 @@ class ApodViewModelTest {
     }
 
     @Test
-    fun `test fetch error`() = runBlockingTest {
+    fun `test fetch error`() = runTest {
         assertThat(sut.viewState.first()).isEqualTo(ApodViewStateLoading(emptyList()))
         dataStateFlow.value = ApodFetchStateError(mockData1, "Test Error")
         val data = sut.viewState.first()
@@ -86,7 +71,7 @@ class ApodViewModelTest {
     }
 
     @Test
-    fun `test fetch empty`() = runBlockingTest {
+    fun `test fetch empty`() = runTest {
         dataStateFlow.value = ApodFetchStateEmpty
         assertThat(sut.viewState.first()).isEqualTo(ApodViewStateEmpty)
     }
