@@ -7,7 +7,7 @@ plugins {
 android {
     compileSdk 33
 
-    namespace 'com.strv.unittest'
+    namespace 'com.paylocity.unittest'
 
     defaultConfig {
         minSdkVersion 21

@@ -5,7 +5,7 @@ plugins {
 
 android {
 
-    namespace 'com.strv.unittest'
+    namespace 'com.paylocity.unittest'
     compileSdk 33
 
     defaultConfig {
