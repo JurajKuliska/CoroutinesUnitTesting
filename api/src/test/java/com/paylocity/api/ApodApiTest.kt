@@ -10,7 +10,7 @@ import io.ktor.client.features.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
 import io.ktor.http.*
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.Dispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
@@ -73,7 +73,7 @@ class ApodApiTest {
 
         val sut: ApodApi = ApodApiImpl(httpClient)
 
-        runBlocking {
+        runTest {
             val response = sut.fetchApod(2)
             assertThat(response is Response.Success<*>).isTrue()
             (response as Response.Success<List<ApodDto>>).let {
@@ -120,7 +120,7 @@ class ApodApiTest {
 
         val sut: ApodApi = ApodApiImpl(httpClient)
 
-        runBlocking {
+        runTest {
             val response = sut.fetchApod(2)
             assertThat(response is Response.Error).isTrue()
             assertThat((response as Response.Error).message).isEqualTo("Wrong API Key")
