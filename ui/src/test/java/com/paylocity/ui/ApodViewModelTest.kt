@@ -24,24 +24,18 @@ class ApodViewModelTest {
     @get:Rule
     val dispatcherRule = MainDispatcherRule()
 
-    private lateinit var sut: ApodViewModel
-    private lateinit var apodRepository: ApodRepository
     private val dataStateFlow = MutableStateFlow<ApodFetchState>(ApodFetchStateLoading(emptyList()))
+
+    private val sut: ApodViewModel by lazy { ApodViewModel(apodRepository) }
+    private val apodRepository: ApodRepository = mockk {
+        coEvery { fetchApod() } just Runs
+        every { apodDataState } returns dataStateFlow
+    }
 
     private val mockData1 =
         createMockData1(Date().apply { time = 100 }, Date().apply { time = 200 })
     private val mockData2 =
         createMockData2(Date().apply { time = 300 }, Date().apply { time = 400 })
-
-    @Before
-    fun `set up`() {
-        apodRepository = mockk {
-            coEvery { fetchApod() } just Runs
-            every { apodDataState } returns dataStateFlow
-        }
-
-        sut = ApodViewModel(apodRepository)
-    }
 
     @Test
     fun `test fetch success`() = runTest {

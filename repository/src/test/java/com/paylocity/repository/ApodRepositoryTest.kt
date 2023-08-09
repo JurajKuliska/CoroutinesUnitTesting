@@ -8,6 +8,7 @@ import com.paylocity.persistence.ApodPersistence
 import com.paylocity.persistence.model.ApodModel
 import com.paylocity.repository.model.Apod
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,7 +16,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import java.util.*
 
@@ -55,7 +56,7 @@ class ApodRepositoryTest {
         ApodRepositoryImpl(apodApiError, apodPersistenceInitialNonEmpty)
 
     @Test
-    fun `test loading`() = runBlockingTest {
+    fun `test loading`() = runTest {
         val job = launch { sutInitialEmpty.fetchApod() }
 
         assertThat(sutInitialEmpty.apodDataState.first()).isEqualTo(ApodFetchStateLoading(emptyList()))
@@ -64,7 +65,7 @@ class ApodRepositoryTest {
     }
 
     @Test
-    fun `test loading with cached data`() = runBlockingTest {
+    fun `test loading with cached data`() = runTest {
         val job = launch { sutInitialNonEmpty.fetchApod() }
 
         val fetchState = sutInitialNonEmpty.apodDataState.first()
@@ -97,7 +98,7 @@ class ApodRepositoryTest {
     }
 
     @Test
-    fun `test loading and then success`() = runBlockingTest {
+    fun `test loading and then success`() = runTest {
         val job = launch { sutInitialEmpty.fetchApod() }
 
         val fetchState = sutInitialEmpty.apodDataState
@@ -135,7 +136,7 @@ class ApodRepositoryTest {
     }
 
     @Test
-    fun `test loading and then error`() = runBlockingTest {
+    fun `test loading and then error`() = runTest {
         val job = launch { sutApiError.fetchApod() }
 
         val fetchState = sutApiError.apodDataState

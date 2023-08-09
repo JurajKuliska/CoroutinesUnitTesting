@@ -8,7 +8,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
 import java.util.*
@@ -33,7 +33,7 @@ class ApodPersistenceTest {
     }
 
     @Test
-    fun `save data to db and read`() = runBlockingTest {
+    fun `save data to db and read`() = runTest {
         val date1 = Date().apply { time = 900 }
         val date2 = Date().apply { time = 900000000 }
         val mockData = getMockData1(date1, date2)
@@ -45,7 +45,7 @@ class ApodPersistenceTest {
     }
 
     @Test
-    fun `save data to db and overwrite it with new data`() = runBlockingTest {
+    fun `save data to db and overwrite it with new data`() = runTest {
         val date1 = Date().apply { time = 900 }
         val date2 = Date().apply { time = 900000000 }
         val date3 = Date().apply { time = 6000000009 }
