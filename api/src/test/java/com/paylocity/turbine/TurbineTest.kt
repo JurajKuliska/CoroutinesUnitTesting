@@ -1,7 +1,6 @@
-package com.paylocity.unittest.api
+package com.paylocity.turbine
 
-import com.google.common.truth.Truth.assertThat
-import kotlinx.coroutines.CoroutineScope
+import com.google.common.truth.Truth
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
@@ -26,15 +25,15 @@ class TurbineTest {
             }
         }
 
-        assertThat(currentValue).isEqualTo(0)
+        Truth.assertThat(currentValue).isEqualTo(0)
         advanceTimeBy(3998)
-        assertThat(currentValue).isEqualTo(0)
+        Truth.assertThat(currentValue).isEqualTo(0)
         advanceTimeBy(5)
-        assertThat(currentValue).isEqualTo(1)
+        Truth.assertThat(currentValue).isEqualTo(1)
         advanceTimeBy(4970)
-        assertThat(currentValue).isEqualTo(1)
+        Truth.assertThat(currentValue).isEqualTo(1)
         advanceTimeBy(50)
-        assertThat(currentValue).isEqualTo(2)
+        Truth.assertThat(currentValue).isEqualTo(2)
 
 //        sut.flow.test {
 //            assertThat(awaitItem()).isEqualTo(1)

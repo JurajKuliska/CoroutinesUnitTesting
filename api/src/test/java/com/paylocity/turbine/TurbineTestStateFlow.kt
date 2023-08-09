@@ -1,7 +1,7 @@
-package com.paylocity.unittest.api
+package com.paylocity.turbine
 
 import app.cash.turbine.test
-import com.google.common.truth.Truth.assertThat
+import com.google.common.truth.Truth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,10 +18,10 @@ class TurbineTestStateFlow {
         val sut = TurbineStateFlowImpl(this)
 
         sut.stateFlow.test {
-            assertThat(awaitItem()).isEqualTo(0)
+            Truth.assertThat(awaitItem()).isEqualTo(0)
             sut.emitStates()
-            assertThat(awaitItem()).isEqualTo(1)
-            assertThat(awaitItem()).isEqualTo(2)
+            Truth.assertThat(awaitItem()).isEqualTo(1)
+            Truth.assertThat(awaitItem()).isEqualTo(2)
         }
     }
 }
