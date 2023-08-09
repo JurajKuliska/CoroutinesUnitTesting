@@ -31,7 +31,7 @@ private class TurbineStateFlowImpl(
 ) {
     private val _stateFlow = MutableStateFlow(0)
     val stateFlow: Flow<Int> = _stateFlow
-        .stateIn(coroutineScope, SharingStarted.Lazily, initialValue = 0)
+//        .stateIn(coroutineScope, SharingStarted.Lazily, initialValue = 0)
 
     fun emitStates() {
         coroutineScope.launch {
