@@ -19,7 +19,7 @@ class ApodPersistenceTest {
     private lateinit var sut: ApodPersistence
 
     private val apodDao = object : ApodDao {
-        val currentData = MutableStateFlow<List<ApodEntity>>(emptyList())
+        private val currentData = MutableStateFlow<List<ApodEntity>>(emptyList())
         override suspend fun updateData(list: List<ApodEntity>) {
             currentData.value = list
         }
