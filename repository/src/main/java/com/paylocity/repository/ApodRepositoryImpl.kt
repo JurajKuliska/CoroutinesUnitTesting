@@ -36,10 +36,10 @@ internal class ApodRepositoryImpl(
             errorFlow
         ) { data, isLoading, error ->
             when {
-                error != null ->
-                    ApodFetchStateError(data.map { it.toApod() }, error)
                 isLoading ->
                     ApodFetchStateLoading(data.map { it.toApod() })
+                error != null ->
+                    ApodFetchStateError(data.map { it.toApod() }, error)
                 data.isNotEmpty() && !isLoading ->
                     ApodFetchStateSuccess(data.map { it.toApod() })
                 !isLoading ->
