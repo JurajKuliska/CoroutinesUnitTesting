@@ -4,8 +4,10 @@ import com.google.common.truth.Truth.assertThat
 import com.paylocity.repository.*
 import com.paylocity.repository.model.Apod
 import com.paylocity.ui.apod.*
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,7 +36,7 @@ class ApodViewModelTest {
     @Before
     fun `set up`() {
         apodRepository = mockk {
-            coEvery { fetchApod() } coAnswers { }
+            coEvery { fetchApod() } just Runs
             every { apodDataState } returns dataStateFlow
         }
 
