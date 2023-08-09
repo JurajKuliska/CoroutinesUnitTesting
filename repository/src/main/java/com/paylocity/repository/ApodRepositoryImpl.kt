@@ -42,7 +42,7 @@ internal class ApodRepositoryImpl(
                     ApodFetchStateLoading(data.map { it.toApod() })
                 data.isNotEmpty() && !isLoading ->
                     ApodFetchStateSuccess(data.map { it.toApod() })
-                data.isEmpty() && !isLoading ->
+                !isLoading ->
                     ApodFetchStateEmpty
                 else -> throw IllegalStateException("unhandled state")
             }
