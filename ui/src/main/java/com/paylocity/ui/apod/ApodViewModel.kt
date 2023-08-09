@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
-class ApodViewModel(private val repository: ApodRepository) : ViewModel() {
+internal class ApodViewModel(private val repository: ApodRepository) : ViewModel() {
 
     init {
         refreshData()
