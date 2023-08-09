@@ -17,7 +17,7 @@ class TurbineTest {
 
     @Test
     fun testTurbine() = runTest {
-        val sut = TurbineImpl(this)
+        val sut = TurbineImpl()
 
         var currentValue = 0
         launch {
@@ -46,9 +46,7 @@ class TurbineTest {
 }
 
 @OptIn(FlowPreview::class)
-private class TurbineImpl(
-    private val coroutineScope: CoroutineScope,
-) {
+private class TurbineImpl {
     val flow = flow {
         emit(1)
         delay(5000)
