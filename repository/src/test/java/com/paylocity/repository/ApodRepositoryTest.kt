@@ -1,5 +1,6 @@
 package com.paylocity.repository
 
+import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.paylocity.api.ApodApi
 import com.paylocity.api.common.Response
@@ -57,6 +58,8 @@ class ApodRepositoryTest {
 
     @Test
     fun `test loading`() = runTest {
+        assertThat(sutInitialEmpty.apodDataState.first()).isEqualTo(ApodFetchStateEmpty)
+
         val job = launch { sutInitialEmpty.fetchApod() }
 
         assertThat(sutInitialEmpty.apodDataState.first()).isEqualTo(ApodFetchStateLoading(emptyList()))
