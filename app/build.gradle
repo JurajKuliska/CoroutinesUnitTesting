@@ -6,10 +6,10 @@ plugins {
 android {
 	compileSdk 33
 
-	namespace 'com.paylocity.unittest'
+	namespace 'com.apod.unittest'
 
 	defaultConfig {
-		applicationId "com.paylocity.unittest"
+		applicationId "com.apod.unittest"
 		minSdkVersion 21
 		targetSdkVersion 33
 		versionCode 1

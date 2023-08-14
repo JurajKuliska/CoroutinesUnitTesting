@@ -7,7 +7,7 @@ plugins {
 android {
     compileSdk 33
 
-    namespace 'com.paylocity.unittest'
+    namespace 'com.apod.unittest'
 
     defaultConfig {
         minSdkVersion 21

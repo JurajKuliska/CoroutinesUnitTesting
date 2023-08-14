@@ -5,7 +5,7 @@ plugins {
 
 android {
 
-    namespace 'com.paylocity.unittest'
+    namespace 'com.apod.unittest'
     compileSdk 33
 
     defaultConfig {
