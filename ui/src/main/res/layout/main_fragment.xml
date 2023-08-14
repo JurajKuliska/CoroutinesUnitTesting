@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.strv.ui.apod.ApodFragment">
+    tools:context="com.paylocity.ui.apod.ApodFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -28,6 +28,7 @@
         android:src="@drawable/ic_refresh"
         app:backgroundTint="?colorSecondary"
         app:layout_anchor="@id/recyclerView"
-        app:layout_anchorGravity="bottom|end" />
+        app:layout_anchorGravity="bottom|end"
+        android:importantForAccessibility="no" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
