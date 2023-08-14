@@ -1,6 +1,7 @@
 package com.paylocity.repository
 
 import com.paylocity.api.ApodApi
+import com.paylocity.api.RequestData
 import com.paylocity.api.common.Response
 import com.paylocity.api.dto.ApodDto
 import com.paylocity.persistence.ApodPersistence
@@ -20,7 +21,7 @@ internal class ApodRepositoryImpl(
     override suspend fun fetchApod() {
         loadingFlow.value = true
         errorFlow.value = null
-        when (val result = apodApi.fetchApod(10)) {
+        when (val result = apodApi.fetchApod(RequestData(count = 10))) {
             is Response.Error -> errorFlow.value = result.message
             is Response.Success<*> -> apodPersistence.updateData(
                 (result.body as List<ApodDto>).map { it.toApodModel() }

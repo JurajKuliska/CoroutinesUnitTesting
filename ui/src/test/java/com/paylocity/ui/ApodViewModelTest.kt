@@ -1,9 +1,19 @@
 package com.paylocity.ui
 
+import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import com.paylocity.repository.*
+import com.paylocity.repository.ApodFetchState
+import com.paylocity.repository.ApodFetchStateEmpty
+import com.paylocity.repository.ApodFetchStateError
+import com.paylocity.repository.ApodFetchStateLoading
+import com.paylocity.repository.ApodFetchStateSuccess
+import com.paylocity.repository.ApodRepository
 import com.paylocity.repository.model.Apod
-import com.paylocity.ui.apod.*
+import com.paylocity.ui.apod.ApodViewModel
+import com.paylocity.ui.apod.ApodViewStateEmpty
+import com.paylocity.ui.apod.ApodViewStateError
+import com.paylocity.ui.apod.ApodViewStateLoading
+import com.paylocity.ui.apod.ApodViewStateSuccess
 import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.every
@@ -15,7 +25,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
-import java.util.*
+import java.util.Date
 
 @ExperimentalCoroutinesApi
 class ApodViewModelTest {
@@ -38,9 +48,11 @@ class ApodViewModelTest {
 
     @Test
     fun `test fetch success`() = runTest {
-        assertThat(sut.viewState.first()).isEqualTo(ApodViewStateLoading(emptyList()))
-        dataStateFlow.value = ApodFetchStateSuccess(mockData1)
-        assertThat(sut.viewState.first()).isEqualTo(ApodViewStateSuccess(mockData1))
+        sut.viewState.test {
+            assertThat(awaitItem()).isEqualTo(ApodViewStateLoading(emptyList()))
+            dataStateFlow.value = ApodFetchStateSuccess(mockData1)
+            assertThat(awaitItem()).isEqualTo(ApodViewStateSuccess(mockData1))
+        }
     }
 
     @Test

@@ -3,6 +3,7 @@ package com.paylocity.repository
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.paylocity.api.ApodApi
+import com.paylocity.api.RequestData
 import com.paylocity.api.common.Response
 import com.paylocity.api.dto.ApodDto
 import com.paylocity.persistence.ApodPersistence
@@ -17,6 +18,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 import java.util.*
@@ -27,7 +29,11 @@ class ApodRepositoryTest {
     private val apodApiResponseChannel = Channel<List<ApodDto>>()
     private val apodApiErrorResponseChannel = Channel<String>()
     private val apodApi = mockk<ApodApi> {
-        coEvery { fetchApod(any()) } coAnswers { Response.Success(apodApiResponseChannel.receive()) }
+        coEvery {
+            fetchApod(any())
+        } coAnswers {
+            Response.Success(apodApiResponseChannel.receive())
+        }
     }
 
     private val apodApiError = mockk<ApodApi> {
@@ -109,7 +115,13 @@ class ApodRepositoryTest {
 
         apodApiResponseChannel.send(mockApiData)
 
-        assertThat(fetchState.first() is ApodFetchStateSuccess).isTrue()
+        coVerify(exactly = 1) {
+            apodApi.fetchApod(withArg {
+                assertThat(it.count).isEqualTo(10)
+            })
+        }
+
+        assertThat(fetchState.first()).isInstanceOf(ApodFetchStateSuccess::class.java)
 
         val data = (fetchState.first() as ApodFetchStateSuccess).list
 

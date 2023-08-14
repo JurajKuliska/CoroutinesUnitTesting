@@ -1,9 +1,12 @@
 package com.paylocity.turbine
 
+import app.cash.turbine.test
 import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
@@ -18,29 +21,12 @@ class TurbineTest {
     fun testTurbine() = runTest {
         val sut = TurbineImpl()
 
-        var currentValue = 0
-        launch {
-            sut.flow.collect {
-                currentValue = it
-            }
+        sut.flow.test {
+            assertThat(awaitItem()).isEqualTo(1)
+            skipItems(1)
+            assertThat(awaitItem()).isEqualTo(3)
+            cancelAndConsumeRemainingEvents()
         }
-
-        Truth.assertThat(currentValue).isEqualTo(0)
-        advanceTimeBy(3998)
-        Truth.assertThat(currentValue).isEqualTo(0)
-        advanceTimeBy(5)
-        Truth.assertThat(currentValue).isEqualTo(1)
-        advanceTimeBy(4970)
-        Truth.assertThat(currentValue).isEqualTo(1)
-        advanceTimeBy(50)
-        Truth.assertThat(currentValue).isEqualTo(2)
-
-//        sut.flow.test {
-//            assertThat(awaitItem()).isEqualTo(1)
-//            assertThat(awaitItem()).isEqualTo(2)
-//            assertThat(awaitItem()).isEqualTo(3)
-//            cancelAndConsumeRemainingEvents()
-//        }
     }
 }
 

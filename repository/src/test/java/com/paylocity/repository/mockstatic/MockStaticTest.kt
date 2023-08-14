@@ -4,6 +4,7 @@ import android.net.Uri
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockk
+import io.mockk.mockkObject
 import io.mockk.mockkStatic
 import org.junit.Test
 
@@ -14,7 +15,9 @@ class MockStaticTest {
         mockkStatic(Uri::class)
         val uriMock = mockk<Uri>()
         every { Uri.parse("hello testers") } returns uriMock
-        assertThat(ClassUsingUri().url).isEqualTo(uriMock)
+
+        val sut = ClassUsingUri()
+        assertThat(sut.url).isEqualTo(uriMock)
     }
 }
 

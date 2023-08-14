@@ -50,7 +50,7 @@ class ApodDaoTest {
     @Test
     fun `test insert data and read`() = runBlocking {
         val data1 = sut.getAll().first()
-        assertThat(data1.isEmpty()).isTrue()
+        assertThat(data1).isEmpty()
 
         val date1 = Date().apply { time = 900 }
         val date2 = Date().apply { time = 900000000 }
@@ -103,7 +103,7 @@ class ApodDaoTest {
     fun `test insert empty data and read`() = runBlocking {
         sut.updateData(getMockData1(Date(), Date()))
         sut.updateData(emptyList())
-        assertThat(sut.getAll().first().size).isEqualTo(0)
+        assertThat(sut.getAll().first()).isEmpty()
     }
 
     private fun ApodEntity.checkData(

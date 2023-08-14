@@ -65,16 +65,21 @@ class ApodApiTest {
     fun `test response success`() {
         mockWebServer.dispatcher = object : Dispatcher() {
             override fun dispatch(request: RecordedRequest) =
-                MockResponse()
-                    .setResponseCode(200)
-                    .addHeader("Content-Type", "application/json; charset=utf-8")
-                    .setBody(mockResponseSuccess)
+                if(request.requestUrl.toString().endsWith("apod?api_key=DEMO_KEY&count=3")) {
+                    MockResponse()
+                        .setResponseCode(200)
+                        .addHeader("Content-Type", "application/json; charset=utf-8")
+                        .setBody(mockResponseSuccess)
+                } else {
+                    MockResponse()
+                        .setResponseCode(404)
+                }
         }
 
         val sut: ApodApi = ApodApiImpl(httpClient)
 
         runTest {
-            val response = sut.fetchApod(2)
+            val response = sut.fetchApod(RequestData(2))
             assertThat(response is Response.Success<*>).isTrue()
             (response as Response.Success<List<ApodDto>>).let {
                 assertThat(it.body.size).isEqualTo(2)
@@ -121,7 +126,7 @@ class ApodApiTest {
         val sut: ApodApi = ApodApiImpl(httpClient)
 
         runTest {
-            val response = sut.fetchApod(2)
+            val response = sut.fetchApod(RequestData(2))
             assertThat(response is Response.Error).isTrue()
             assertThat((response as Response.Error).message).isEqualTo("Wrong API Key")
         }
